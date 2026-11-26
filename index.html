@@ -611,3 +611,43 @@ function activeTrip(){return TRIPS.find(t=>t.id===state.activeTrip)||TRIPS[0];}
 function localISO(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 function daysTo(dateStr){const now=new Date();const t=new Date(dateStr+'T00:00:00');return Math.max(0,Math.round((t-new Date(localISO(now)+'T00:00:00'))/86400000));}
 function tripKm(t){return t.legs.reduce((a,l)=>a+l.km,0);}
+
+function tripMin(t){return t.legs.reduce((a,l)=>a+l.min,0);}
+function fmtMin(m){const h=Math.floor(m/60),mm=m%60;const ms=mm===1?' min':' mins';return h?h+' hr'+(h>1?'s':'')+(mm?' '+mm+ms:''):mm+ms;}
+function fuelLitres(t){const km=tripKm(t)*(state.roundTrip?2:1);return km/state.mileage;}
+function fuelCost(t){return fuelLitres(t)*state.price;}
+function tollCost(t){return t.tolls*(state.roundTrip?2:1);}
+function stayCost(t){return (t.days-1)*t.stay;}
+function foodCost(t){return t.days*t.food;}
+function totalCost(t){return fuelCost(t)+tollCost(t)+stayCost(t)+foodCost(t);}
+function perPerson(t){return totalCost(t)/state.people;}
+
+/* ================= render: tabs + next trip ================= */
+function renderTabs(){
+ $('#tripTabs').innerHTML=TRIPS.map(t=>{
+  const sel=t.id===state.activeTrip;
+  return '<button type="button" class="triptab'+(sel?' on':'')+'" data-trip="'+t.id+'" role="tab" aria-selected="'+sel+'"><b>'+esc(t.name)+'</b><span>'+esc(t.from)+' · '+fmtDays(t.days)+' · '+esc(t.date.split('-').reverse().join(' / '))+'</span></button>';
+ }).join('');
+ $$('#tripTabs .triptab').forEach(b=>b.addEventListener('click',()=>{state.activeTrip=b.dataset.trip;save();renderAll();}));
+}
+function renderNext(){
+ const t=activeTrip();
+ $('#ntDays').textContent=daysTo(t.date);
+ $('#ntName').textContent=t.name;
+ const d=new Date(t.date+'T00:00:00');
+ $('#ntMeta').textContent=d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'})+' · '+fmtDays(t.days)+' · '+esc(t.car)+' · '+state.people+' people';
+ $('#ntKm').textContent=tripKm(t)+' km one way';
+ $('#ntFuel').textContent='Fuel about '+RUPEE(fuelCost(t)/(state.roundTrip?2:1))+' one way';
+ $('#ntCost').textContent=RUPEE(totalCost(t))+' all-in · '+RUPEE(perPerson(t))+' each';
+}
+
+/* ================= render: route ================= */
+function renderRoute(){
+ const t=activeTrip();
+ $('#routeTitle').textContent=t.from.split(',')[0]+' to '+t.to.split(',')[0]+', leg by leg.';
+ $('#routeSub').textContent=t.legs.length+' legs'+(t.bends?', '+t.bends+' hairpin bends':'')+'. The road line below is the whole drive — tap any leg for what to expect on it.';
+ $('#legs').innerHTML=t.legs.map((l,i)=>'<article class="leg" data-leg="'+i+'" tabindex="0" role="button" aria-label="Leg '+(i+1)+': '+esc(l.from)+' to '+esc(l.to)+'"><div class="km">'+l.km+' <small>km</small></div><h3>'+esc(l.from)+' → '+esc(l.to)+'</h3><p>'+esc(l.note)+'</p><span class="chip mins">'+fmtMin(l.min)+'</span></article>').join('');
+ $('#rtKm').textContent=tripKm(t)+' km';
+ $('#rtTime').textContent=fmtMin(tripMin(t));
+ $('#rtBends').textContent=t.bends?t.bends+' bends':'No ghats';
+ $('#rtToll').textContent=RUPEE(t.tolls)+' tolls';

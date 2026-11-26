@@ -777,3 +777,31 @@ function bind(){
 /* ================= coach + intro ================= */
 const COACH=[
  {t:'Pick a trip.',x:'Three trips are saved — Ooty, Coorg and Pondicherry. Tap one and the route, costs and day plan all switch to it.'},
+
+ {t:'Check the maths.',x:'The fuel calculator uses your car\u2019s real mileage. Change it, and the trip total, the budget ring and the per-person split all update.'},
+ {t:'Tick it the night before.',x:'Car checks and packing save on this device. Do them the evening before, not at 5 AM in the dark.'}];
+let coachStep=0;
+function showCoach(step){coachStep=step;$('#coachStep').textContent='Step '+(step+1)+' of 3';$('#coachTitle').textContent=COACH[step].t;$('#coachText').textContent=COACH[step].x;$$('#coachDots i').forEach((d,i)=>d.classList.toggle('on',i===step));$('#coachNext').textContent=step===2?'Done':'Next';$('#coach').classList.add('show');}
+function hideCoach(){$('#coach').classList.remove('show');state.coachDone=true;save();}
+function initIntro(){
+ const intro=$('#intro'),bar=$('#introBar');
+ let p=0;const quick=state.seen;
+ const dur=quick?900:3600;
+ const t0=Date.now();
+ const tick=()=>{p=Math.min(100,(Date.now()-t0)/dur*100);bar.style.width=p+'%';if(p<100){requestAnimationFrame(tick);}else{intro.classList.add('hide');state.seen=true;save();if(!state.coachDone)setTimeout(()=>showCoach(0),500);}};
+ requestAnimationFrame(tick);
+ const skip=()=>{intro.classList.add('hide');state.seen=true;save();if(!state.coachDone)setTimeout(()=>showCoach(0),300);};
+ $('#introSkip').addEventListener('click',skip);
+ intro.addEventListener('click',e=>{if(e.target===intro)skip();});
+ $('#coachNext').addEventListener('click',()=>{if(coachStep<2)showCoach(coachStep+1);else hideCoach();});
+ $('#coachSkip').addEventListener('click',hideCoach);
+}
+
+/* ================= init ================= */
+renderAll();
+bind();
+initIntro();
+window.DriveKit={TRIPS,CHECKS,PACKS,GUIDES,state,fuelCost,totalCost,perPerson,tripKm,tripMin,daysTo,renderAll};
+</script>
+</body>
+</html>

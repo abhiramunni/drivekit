@@ -588,3 +588,26 @@ const GUIDES=[
  {t:'Driving the ghats',b:'Use engine braking, not the brake pedal, on long descents. Second gear on hairpins, never overtake on a bend, and honk before every blind turn. If the car behind you is faster, let it pass at a straight stretch — do not speed up to block it.',items:['Descend in 2nd gear, not neutral','Honk before blind bends','Let faster cars pass on straights']},
  {t:'Night driving',b:'On this route, avoid driving the ghats after dark. Fog, unlit bends and tired eyes multiply the risk. If you must, dip your beams for oncoming cars, keep 4–5 seconds behind the car ahead, and stop for tea if you start blinking hard.',items:['Avoid ghats after 7 PM','Dip beams for oncoming traffic','Stop for tea when sleepy']},
  {t:'FASTag, simply',b:'One tag per car, stuck on the windscreen. Keep a balance of at least ₹500 before a trip — the Ooty route has no toll plazas, but the Bengaluru–Coorg and Bengaluru–Pondicherry routes do. A blacklisted tag means the cash lane and a double charge.',items:['Balance ₹500+ before leaving','One tag, one car','Check status in the bank app']},
+
+ {t:'Fuel economy on hills',b:'Hills drink fuel. Expect 2–3 km/l less in the ghats than on the highway — that is why this app defaults to 12 km/l, not the highway 15. Keep a steady speed, shift early, switch the AC off on steep climbs if the engine strains, and never let the tank drop below a quarter in the hills.',items:['Ghats cost 2–3 km/l extra','Steady speed beats bursts','Refuel above a quarter tank']},
+ {t:'If the car breaks down',b:'Hazards on, car to the left edge, everyone out and behind the barrier. Call roadside assistance first, then family. Do not open the bonnet on a hot engine. If it is a flat tyre and the ground is level, the spare gets you to the next town — drive slowly, under 60 km/h.',items:['Hazards on, everyone out','Call assistance before tinkering','Spare tyre: under 60 km/h']},
+ {t:'Monsoon driving',b:'In rain, halve your speed and double the following distance. Aquaplaning starts around 80 km/h on worn tyres — slow down before standing water, never through it. If the wipers cannot keep up, pull over and wait; the rain will pass.',items:['Halve speed, double distance','Never drive through standing water','Pull over if wipers lose']}];
+/* ================= state ================= */
+const KEY='drivekit_v1';
+const RUPEE=n=> '₹'+Math.round(n).toLocaleString('en-IN');
+const fmtDays=n=> n+' day'+(n===1?'':'s');
+function defaultState(){return{seen:false,activeTrip:'ooty',mileage:12,price:113.79,fuelType:'petrol',roundTrip:true,people:4,
+ checks:{tyres:true,coolant:true,brakes:true,docs:true},packs:{power:true,playlist:true,cash:true},
+ spends:[{cat:'Fuel',label:'Tank full before the trip',amt:1000}],customStops:{},visitedStops:{},samples:true,coachDone:false};}
+let state;
+try{state=Object.assign(defaultState(),JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){state=defaultState();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+const $=s=>document.querySelector(s);
+const $$=s=>Array.prototype.slice.call(document.querySelectorAll(s));
+function esc(s){return String(s).replace(/[&<>"/]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function safeScroll(el){try{if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+function activeTrip(){return TRIPS.find(t=>t.id===state.activeTrip)||TRIPS[0];}
+function localISO(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function daysTo(dateStr){const now=new Date();const t=new Date(dateStr+'T00:00:00');return Math.max(0,Math.round((t-new Date(localISO(now)+'T00:00:00'))/86400000));}
+function tripKm(t){return t.legs.reduce((a,l)=>a+l.km,0);}

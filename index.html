@@ -757,3 +757,23 @@ function bind(){
  $('#calcMileage').addEventListener('input',e=>{state.mileage=Number(e.target.value);save();renderCalc();renderNext();renderBudget();});
  $('#calcPrice').addEventListener('input',e=>{state.price=Number(e.target.value);save();renderCalc();renderNext();renderBudget();});
  $('#calcPeople').addEventListener('input',e=>{state.people=Number(e.target.value);save();renderCalc();renderNext();renderBudget();});
+
+ $('#calcTolls').addEventListener('input',e=>{const t=activeTrip();t.tolls=Math.max(0,Number(e.target.value)||0);save();renderCalc();renderNext();renderRoute();renderBudget();});
+ $$('#fuelSeg button').forEach(b=>b.addEventListener('click',()=>{state.fuelType=b.dataset.fuel;save();renderCalc();}));
+ $$('#tripSeg button').forEach(b=>b.addEventListener('click',()=>{state.roundTrip=b.dataset.trip==='round';save();renderCalc();renderNext();renderBudget();}));
+ $('#spendForm').addEventListener('submit',e=>{e.preventDefault();const amt=Number($('#spendAmt').value);if(!amt||amt<=0)return;state.spends.push({cat:$('#spendCat').value,label:$('#spendLabel').value.trim()||'Spend',amt});save();e.target.reset();renderBudget();toast('Spend logged.');});
+ $('#stopForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#stopName').value.trim();if(!name)return;const t=activeTrip();(state.customStops[t.id]=state.customStops[t.id]||[]).push({name,km:Number($('#stopKm').value)||tripKm(t),type:$('#stopType').value,note:'Added by you.'});save();e.target.reset();renderStops();toast('Stop added.');});
+ const copy=()=>{const txt=tripSummary();const done=()=>toast('Trip summary copied.');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>{openSheet('Trip summary','<pre style="white-space:pre-wrap;font-family:inherit;font-size:14px">'+esc(txt)+'</pre>');});}else{openSheet('Trip summary','<pre style="white-space:pre-wrap;font-family:inherit;font-size:14px">'+esc(txt)+'</pre>');}};
+ $('#copySummary').addEventListener('click',copy);
+ $('#ntCopyBtn').addEventListener('click',copy);
+ $('#ntPlanBtn').addEventListener('click',()=>safeScroll($('#route')));
+ $('#removeSamples').addEventListener('click',()=>{if(!state.samples){toast('Samples already removed.');return;}state.samples=false;state.spends=state.spends.filter(s=>s.label!=='Tank full before the trip');save();renderBudget();toast('Sample spend removed. Your own entries stay.');});
+ $('#eraseAll').addEventListener('click',()=>{if(!$('#eraseAll').dataset.arm){$('#eraseAll').dataset.arm='1';$('#eraseAll').textContent='Tap again to erase';setTimeout(()=>{delete $('#eraseAll').dataset.arm;$('#eraseAll').textContent='Erase everything';},4000);return;}localStorage.removeItem(KEY);state=defaultState();save();renderAll();toast('Everything erased. Fresh start.');});
+ $('#sheetClose').addEventListener('click',closeSheet);
+ $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
+}
+
+/* ================= coach + intro ================= */
+const COACH=[
+ {t:'Pick a trip.',x:'Three trips are saved — Ooty, Coorg and Pondicherry. Tap one and the route, costs and day plan all switch to it.'},

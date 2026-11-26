@@ -45,3 +45,5 @@ and tolls are estimates — check the pump price before you leave.
 - `index.html` — the app
 - `drivekit-hero.webp`, `drivekit-flatlay.webp` — photos
 - `README.md`, `LICENSE` (MIT)
+
+QA: 54/54 headless jsdom assertions, node --check OK, zero uncaught JS errors (26 Nov 2026).

@@ -683,3 +683,45 @@ function renderGuides(){
 const CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>';
 function renderChecklists(){
  $('#checkList').innerHTML=CHECKS.map(c=>{const done=!!state.checks[c.id];return '<li class="'+(done?'done':'')+'" data-check="'+c.id+'" tabindex="0" role="checkbox" aria-checked="'+done+'"><span class="box">'+CHECK_SVG+'</span><span>'+esc(c.t)+'<span class="why">'+esc(c.w)+'</span></span></li>';}).join('');
+
+ $('#packList').innerHTML=PACKS.map(c=>{const done=!!state.packs[c.id];return '<li class="'+(done?'done':'')+'" data-pack="'+c.id+'" tabindex="0" role="checkbox" aria-checked="'+done+'"><span class="box">'+CHECK_SVG+'</span><span>'+esc(c.t)+'<span class="why">'+esc(c.w)+'</span></span></li>';}).join('');
+ const cd=CHECKS.filter(c=>state.checks[c.id]).length, pd=PACKS.filter(c=>state.packs[c.id]).length;
+ $('#checkCount').textContent=cd+' of '+CHECKS.length;
+ $('#packCount').textContent=pd+' of '+PACKS.length;
+ $('#checkArc').style.strokeDashoffset=(131.9*(1-cd/CHECKS.length)).toFixed(1);
+ $('#packArc').style.strokeDashoffset=(131.9*(1-pd/PACKS.length)).toFixed(1);
+ const toggle=(list,key,store)=>{list.forEach(li=>{const flip=()=>{state[store][key(li)]=!state[store][key(li)];save();renderChecklists();};li.addEventListener('click',flip);li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});});};
+ toggle($$('#checkList li'),li=>li.dataset.check,'checks');
+ toggle($$('#packList li'),li=>li.dataset.pack,'packs');
+}
+/* ================= calculator + budget ================= */
+function renderCalc(){
+ const t=activeTrip();
+ $('#mileageOut').textContent=state.mileage+' km/l';
+ $('#priceOut').textContent='₹'+Number(state.price).toFixed(2)+' / litre';
+ $('#peopleOut').textContent=state.people+' people';
+ $$('#fuelSeg button').forEach(b=>b.classList.toggle('on',b.dataset.fuel===state.fuelType));
+ $$('#tripSeg button').forEach(b=>b.classList.toggle('on',(b.dataset.trip==='round')===state.roundTrip));
+ const km=tripKm(t), dist=state.roundTrip?km*2:km;
+ $('#outKm').textContent=km+' km one way · '+dist+' km '+(state.roundTrip?'return':'one way');
+ $('#outLitres').textContent=fuelLitres(t).toFixed(1)+' litres';
+ $('#outFuel').textContent=RUPEE(fuelCost(t));
+ $('#outTolls').textContent=RUPEE(tollCost(t));
+ $('#outStayLbl').textContent=(t.days-1)+' nights × '+RUPEE(t.stay);
+ $('#outStay').textContent=RUPEE(stayCost(t));
+ $('#outFoodLbl').textContent=t.days+' days × '+RUPEE(t.food);
+ $('#outFood').textContent=RUPEE(foodCost(t));
+ $('#outTotal').textContent=RUPEE(totalCost(t));
+ $('#outPerPerson').textContent=RUPEE(perPerson(t));
+}
+function budgetPlan(){return totalCost(activeTrip());}
+function budgetSpent(){return state.spends.reduce((a,s)=>a+Number(s.amt||0),0);}
+function renderBudget(){
+ const t=activeTrip(), plan=budgetPlan(), spent=budgetSpent();
+ const pct=plan?Math.min(100,Math.round(spent/plan*100)):0;
+ $('#budgetPct').textContent=pct+'%';
+ $('#budgetSpent').textContent=RUPEE(spent);
+ $('#budgetPlan').textContent=RUPEE(plan);
+ $('#budgetArc').style.strokeDashoffset=(326.7*(1-pct/100)).toFixed(1);
+ $('#budgetArc').style.stroke=pct>100?'#b3402e':'#b7791f';
+ const cats=['Fuel','Tolls','Stay','Food','Fun'];

@@ -530,3 +530,37 @@ const TRIPS=[
   plan:[
    {day:1,title:'Drive up the ghats',items:['Leave Kovoor by 6 AM','Reach Ooty by noon','Evening at Ooty Lake and the Rose Garden']},
    {day:2,title:'Ooty, slow and easy',items:['Doddabetta Peak at sunrise','Tea factory tour after breakfast','Botanical Garden in the afternoon']},
+
+   {day:3,title:'Down the hill, home',items:['Early breakfast, leave by 8 AM','Lunch at Kalpetta','Home in Kozhikode by evening']}]},
+ {id:'coorg',name:'Bengaluru → Coorg',from:'BTM Layout, Bengaluru',to:'Madikeri, Coorg',date:'2027-01-09',days:2,car:'Verna · Petrol',people:4,stay:2200,food:700,bends:12,
+  legs:[
+   {from:'Bengaluru',to:'Mysuru',km:145,min:150,note:'NH275 expressway — smooth, fast, and tolled. Watch the speed cameras.'},
+   {from:'Mysuru',to:'Hunsur',km:45,min:55,note:'Two-lane road through sugarcane fields.'},
+   {from:'Hunsur',to:'Madikeri',km:75,min:100,note:'Ghat curves begin. Coffee estates on both sides.'}],
+  tolls:180,
+  stops:[
+   {name:'Mysuru Ring Road food court',km:145,type:'Food',note:'Breakfast stop before the ghats.'},
+   {name:'Hunsur fuel stop',km:190,type:'Fuel',note:'Top up — Coorg pumps are fewer and dearer.'},
+   {name:'Raja’s Seat viewpoint',km:265,type:'View',note:'Sunset point in Madikeri. Arrive before 5:30 PM.'}],
+  plan:[
+   {day:1,title:'Highway, then hills',items:['Leave Bengaluru by 6:30 AM','Breakfast at Mysuru','Abbey Falls and Raja’s Seat by evening']},
+   {day:2,title:'Coffee country',items:['Coffee estate walk at sunrise','Dubare Elephant Camp','Drive back after lunch']}]},
+ {id:'pondy',name:'Bengaluru → Pondicherry',from:'BTM Layout, Bengaluru',to:'Pondicherry',date:'2027-02-13',days:2,car:'Verna · Petrol',people:4,stay:2000,food:650,bends:0,
+  legs:[
+   {from:'Bengaluru',to:'Krishnagiri',km:90,min:95,note:'NH44 — fast four-lane highway.'},
+   {from:'Krishnagiri',to:'Tiruvannamalai',km:110,min:120,note:'Good state highway, watch for two-wheelers in towns.'},
+   {from:'Tiruvannamalai',to:'Pondicherry',km:110,min:130,note:'Coastal road at the end — the sea breeze is the welcome.'}],
+  tolls:350,
+  stops:[
+   {name:'Krishnagiri dam viewpoint',km:90,type:'View',note:'Quick photo stop over the reservoir.'},
+   {name:'Tiruvannamalai lunch stop',km:200,type:'Food',note:'Temple-town lunch before the last leg.'},
+   {name:'Rock Beach',km:310,type:'View',note:'Park near the promenade and walk to the hotel.'}],
+  plan:[
+   {day:1,title:'Highway to the sea',items:['Leave Bengaluru by 7 AM','Lunch at Tiruvannamalai','Evening on Rock Beach and the French Quarter']},
+   {day:2,title:'Slow Pondicherry',items:['Auroville in the morning','Lunch at a French Quarter café','Drive back after an early dinner']} ]}
+];
+const CHECKS=[
+ {id:'tyres',t:'Tyres + spare checked',w:'Pressure, tread and the spare — a flat on a ghat bend is the worst place for one.'},
+ {id:'coolant',t:'Coolant topped up',w:'Ghat climbs heat the engine. Check the reservoir, not just the dashboard.'},
+ {id:'oil',t:'Engine oil level',w:'Between the two marks on the dipstick. Top up if it is low.'},
+ {id:'brakes',t:'Brakes feel right',w:'Firm pedal, no squeal. The 45 bends on the Ooty route will test them.'},

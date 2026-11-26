@@ -236,3 +236,55 @@ footer p{font-size:13px;color:var(--muted);max-width:560px}
 </style>
 </head>
 <body>
+
+<div id="intro" role="dialog" aria-label="Welcome to DriveKit">
+  <div class="road stagger" aria-hidden="true">
+    <svg viewBox="0 0 420 120" fill="none">
+      <path d="M10 100 C 120 100, 160 30, 210 30 S 330 100, 410 100" stroke="#5c4632" stroke-width="10" stroke-linecap="round"/>
+      <path class="roadline" d="M10 100 C 120 100, 160 30, 210 30 S 330 100, 410 100" stroke="#e8b84b" stroke-width="3" stroke-linecap="round"/>
+      <g class="car"><circle cx="210" cy="18" r="9" fill="#e8b84b"/><rect x="196" y="24" width="28" height="9" rx="4" fill="#e8b84b"/></g>
+      <circle cx="34" cy="72" r="16" fill="#e8b84b" opacity=".9"/>
+    </svg>
+  </div>
+  <h1 class="stagger">Drive<span>Kit</span></h1>
+  <p class="stagger">The road trip, planned before you turn the key.</p>
+  <div class="bar stagger" aria-hidden="true"><i id="introBar"></i></div>
+  <button id="introSkip" class="stagger" type="button">Tap to skip</button>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 17h14M6 17l1.5-5h9L18 17M7.5 12l1-3.5h7l1 3.5"/><circle cx="8" cy="17.5" r="1.6"/><circle cx="16" cy="17.5" r="1.6"/></svg></span><span>DriveKit<small>ROAD TRIP PLANNER</small></span></div>
+    <nav aria-label="Sections">
+      <a href="#route">Route</a><a href="#stops">Stops</a><a href="#cost">Cost</a><a href="#checks">Car checks</a><a href="#plan">Day plan</a><a href="#guides">Guides</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <img src="drivekit-hero.webp" alt="A silver sedan on a winding road through misty tea hills at golden hour" fetchpriority="high">
+  <div class="shade"></div>
+  <div class="copy wrap">
+    <span class="eyebrow">South India · By road</span>
+    <h1 id="heroTitle">Never wing a road trip again.</h1>
+    <p>Route legs, hairpin warnings, fuel maths, tolls, stops worth pulling over for, and a car that is actually ready — one calm page per trip.</p>
+    <div class="stats">
+      <span class="chip">3 trips saved</span>
+      <span class="chip gold">Next: Ooty in 23 days</span>
+      <span class="chip">190 km · 5 hrs 5 mins</span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap nexttrip">
+  <div class="card">
+    <div>
+      <span class="eyebrow">Next trip</span>
+      <div class="when" style="margin-top:8px">
+        <div class="bigdays"><span id="ntDays">23</span><small>DAYS TO GO</small></div>
+        <div>
+          <h2 id="ntName" style="font-size:26px">Kovoor → Ooty</h2>
+          <p class="muted" id="ntMeta">Sat 19 Dec 2026 · 3 days · Verna · 4 people</p>
+          <div class="nt-meta">
+            <span class="chip" id="ntKm">190 km one way</span>
+            <span class="chip" id="ntFuel">Fuel about ₹1,802 one way</span>

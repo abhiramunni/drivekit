@@ -288,3 +288,57 @@ footer p{font-size:13px;color:var(--muted);max-width:560px}
           <div class="nt-meta">
             <span class="chip" id="ntKm">190 km one way</span>
             <span class="chip" id="ntFuel">Fuel about ₹1,802 one way</span>
+
+            <span class="chip green" id="ntCost">₹9,003 all-in · ₹2,251 each</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nt-actions">
+      <button class="btn terra" type="button" id="ntPlanBtn">See the route</button>
+      <button class="btn ghost" type="button" id="ntCopyBtn">Copy trip summary</button>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="trips">
+  <span class="eyebrow">Your trips</span>
+  <h2>Pick a trip. The whole plan follows.</h2>
+  <p class="sub">Tap a trip and every section below — route, stops, costs, checks, day plan — switches to it. Your own trips save on this device only.</p>
+  <div class="triptabs" id="tripTabs" role="tablist" aria-label="Saved trips"></div>
+</section>
+<section class="wrap sec" id="route">
+  <span class="eyebrow">The route</span>
+  <h2 id="routeTitle">Kovoor to Ooty, leg by leg.</h2>
+  <p class="sub" id="routeSub">Five legs, two ghat climbs and 45 hairpin bends. The road line below is the whole drive — tap any leg for what to expect on it.</p>
+  <div class="atlas">
+    <div class="roadline" aria-hidden="true"></div>
+    <div class="legs" id="legs"></div>
+    <div class="routetot">
+      <div class="stat"><b id="rtKm">190 km</b><span>One way</span></div>
+      <div class="stat"><b id="rtTime">5 hrs 25 mins</b><span>Driving time</span></div>
+      <div class="stat"><b id="rtBends">45 bends</b><span>Hairpins</span></div>
+      <div class="stat"><b id="rtToll">₹0 tolls</b><span>One way</span></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px;padding:16px 18px;display:none" id="legDetail" role="status"></div>
+</section>
+
+<section class="wrap sec" id="stops">
+  <span class="eyebrow">Worth a stop</span>
+  <h2>Pull over here, not anywhere.</h2>
+  <p class="sub">Stops picked for this route — viewpoints, a lake, and the last sensible fuel stop before the climb. Tap a stop to mark it visited on the day.</p>
+  <div class="stops" id="stopsList"></div>
+  <form class="spendform" id="stopForm" style="margin-top:14px">
+    <input type="text" id="stopName" placeholder="Add your own stop — e.g. Tea shop at Kalpetta" aria-label="Stop name" required>
+    <select id="stopType" aria-label="Stop type"><option>View</option><option>Food</option><option>Fuel</option><option>Stop</option></select>
+    <input type="number" id="stopKm" placeholder="Km mark" min="0" aria-label="Kilometre mark">
+    <button class="btn small" type="submit">Add stop</button>
+  </form>
+</section>
+<section class="wrap sec" id="cost">
+  <span class="eyebrow">Fuel &amp; tolls</span>
+  <h2>What the drive actually costs.</h2>
+  <p class="sub">Change the mileage or the fuel price and every number on this page updates — the trip card, the budget, and the per-person split. Prices are November 2026 Karnataka petrol, editable.</p>
+  <div class="calc">
+    <div class="card panel">

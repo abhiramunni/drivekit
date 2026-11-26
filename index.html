@@ -725,3 +725,35 @@ function renderBudget(){
  $('#budgetArc').style.strokeDashoffset=(326.7*(1-pct/100)).toFixed(1);
  $('#budgetArc').style.stroke=pct>100?'#b3402e':'#b7791f';
  const cats=['Fuel','Tolls','Stay','Food','Fun'];
+
+ const planBy={Fuel:fuelCost(t),Tolls:tollCost(t),Stay:stayCost(t),Food:foodCost(t),Fun:Math.round(totalCost(t)*0.05)};
+ $('#budgetRows').innerHTML=cats.map(c=>{
+  const sp=state.spends.filter(s=>s.cat===c).reduce((a,s)=>a+Number(s.amt||0),0);
+  const pl=planBy[c]||0, p=pl?Math.min(100,Math.round(sp/pl*100)):0;
+  return '<div class="brow"><div style="flex:1"><div style="display:flex;justify-content:space-between"><span><b>'+c+'</b></span><span>'+RUPEE(sp)+' of '+RUPEE(pl)+'</span></div><div class="bar"><i class="'+(sp>pl?'over':'')+'" style="width:'+p+'%"></i></div></div></div>';
+ }).join('');
+ $('#spendList').innerHTML=state.spends.length?state.spends.map((s,i)=>'<div class="brow"><span>'+esc(s.label)+' <span class="muted">· '+esc(s.cat)+'</span></span><span><b>'+RUPEE(s.amt)+'</b> <button type="button" class="btn small ghost" data-delspend="'+i+'" aria-label="Delete spend">Remove</button></span></div>').join(''):'<p class="small muted">Nothing logged yet.</p>';
+ $$('#spendList [data-delspend]').forEach(b=>b.addEventListener('click',()=>{state.spends.splice(+b.dataset.delspend,1);save();renderBudget();}));
+}
+
+/* ================= sheet / summary ================= */
+function openSheet(title,bodyHTML){$('#sheetTitle').textContent=title;$('#sheetBody').innerHTML=bodyHTML;$('#sheet').classList.add('show');}
+function closeSheet(){$('#sheet').classList.remove('show');}
+function tripSummary(){
+ const t=activeTrip();
+ const lines=['DriveKit — '+t.name,'Date: '+t.date+' · '+fmtDays(t.days)+' · '+t.car+' · '+state.people+' people',
+  'Route: '+tripKm(t)+' km one way, '+fmtMin(tripMin(t))+' driving'+(t.bends?', '+t.bends+' hairpin bends':''),
+  'Cost (round trip, '+state.mileage+' km/l @ ₹'+Number(state.price).toFixed(2)+'): fuel '+RUPEE(fuelCost(t))+', tolls '+RUPEE(tollCost(t))+', stay '+RUPEE(stayCost(t))+', food '+RUPEE(foodCost(t))+', total '+RUPEE(totalCost(t))+' ('+RUPEE(perPerson(t))+' each)',
+  'Stops: '+allStops(t).map(s=>s.name+' ('+s.km+' km)').join(', '),
+  'Car checks done: '+CHECKS.filter(c=>state.checks[c.id]).length+' of '+CHECKS.length+' · Packed: '+PACKS.filter(c=>state.packs[c.id]).length+' of '+PACKS.length];
+ return lines.join('\n');
+}
+
+/* ================= render all ================= */
+function renderAll(){renderTabs();renderNext();renderRoute();renderStops();renderPlan();renderGuides();renderChecklists();renderCalc();renderBudget();}
+
+/* ================= events ================= */
+function bind(){
+ $('#calcMileage').addEventListener('input',e=>{state.mileage=Number(e.target.value);save();renderCalc();renderNext();renderBudget();});
+ $('#calcPrice').addEventListener('input',e=>{state.price=Number(e.target.value);save();renderCalc();renderNext();renderBudget();});
+ $('#calcPeople').addEventListener('input',e=>{state.people=Number(e.target.value);save();renderCalc();renderNext();renderBudget();});

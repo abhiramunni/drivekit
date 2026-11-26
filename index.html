@@ -651,3 +651,35 @@ function renderRoute(){
  $('#rtTime').textContent=fmtMin(tripMin(t));
  $('#rtBends').textContent=t.bends?t.bends+' bends':'No ghats';
  $('#rtToll').textContent=RUPEE(t.tolls)+' tolls';
+
+ $$('#legs .leg').forEach(el=>{const open=()=>{const l=t.legs[+el.dataset.leg];const d=$('#legDetail');d.style.display='block';d.innerHTML='<b>Leg '+(+el.dataset.leg+1)+' · '+esc(l.from)+' → '+esc(l.to)+'</b> — '+l.km+' km, about '+fmtMin(l.min)+'.<br><span class="muted">'+esc(l.note)+'</span>';safeScroll(d);};
+  el.addEventListener('click',open);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});});
+}
+
+/* ================= render: stops ================= */
+function allStops(t){return t.stops.concat(state.customStops[t.id]||[]);}
+function renderStops(){
+ const t=activeTrip();
+ const stops=allStops(t);
+ $('#stopsList').innerHTML=stops.map((s,i)=>{
+  const key=t.id+':'+i;const vis=!!state.visitedStops[key];
+  return '<article class="stop"><div class="pin"><b>'+s.km+'</b><span>KM</span></div><div style="flex:1"><h3>'+esc(s.name)+'</h3><p>'+esc(s.note)+'</p><span class="chip tag'+(s.type==='Fuel'?' gold':'')+'">'+esc(s.type)+'</span></div><button type="button" class="btn small '+(vis?'':'ghost')+'" data-stop="'+i+'">'+(vis?'Visited':'Mark visited')+'</button></article>';
+ }).join('');
+ $$('#stopsList [data-stop]').forEach(b=>b.addEventListener('click',()=>{const key=t.id+':'+b.dataset.stop;state.visitedStops[key]=!state.visitedStops[key];save();renderStops();}));
+}
+
+/* ================= render: plan + guides ================= */
+function renderPlan(){
+ const t=activeTrip();
+ $('#planTitle').textContent=fmtDays(t.days)+' in '+t.to.split(',')[0]+'.';
+ $('#planSub').textContent='A slow plan on purpose — the drive up is the first day\u2019s adventure, not a race to the hotel.';
+ $('#planDays').innerHTML=t.plan.map(d=>'<div class="card planday"><div class="dayno">DAY '+d.day+'</div><h3>'+esc(d.title)+'</h3><ul>'+d.items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul></div>').join('');
+}
+function renderGuides(){
+ $('#guidesList').innerHTML=GUIDES.map(g=>'<details class="card guide"><summary>'+esc(g.t)+'<svg class="chev icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>'+esc(g.b)+'</p><ul>'+g.items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul></details>').join('');
+}
+
+/* ================= render: checklists ================= */
+const CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+function renderChecklists(){
+ $('#checkList').innerHTML=CHECKS.map(c=>{const done=!!state.checks[c.id];return '<li class="'+(done?'done':'')+'" data-check="'+c.id+'" tabindex="0" role="checkbox" aria-checked="'+done+'"><span class="box">'+CHECK_SVG+'</span><span>'+esc(c.t)+'<span class="why">'+esc(c.w)+'</span></span></li>';}).join('');

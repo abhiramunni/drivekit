@@ -147,3 +147,45 @@ header.top .wrap{display:flex;align-items:center;gap:14px;padding-top:12px;paddi
 /* ---------- budget ---------- */
 .budget{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:stretch}
 .ringwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+
+.ringwrap svg{width:150px;height:150px}
+.ringwrap .pct{font-family:Fraunces,serif;font-size:30px;font-weight:800}
+.brows .brow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.brows .brow:last-child{border-bottom:0}
+.brows .bar{height:7px;background:var(--paper2);border-radius:99px;margin-top:6px;overflow:hidden}
+.brows .bar i{display:block;height:100%;background:var(--bronze);border-radius:99px}
+.brows .bar i.over{background:var(--red)}
+.spendform{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.spendform input,.spendform select{flex:1;min-width:120px;border:1.5px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff}
+/* ---------- checklists ---------- */
+.split2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.checkcard{padding:20px 22px}
+.checkhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+.checkhead h3{font-size:19px}
+.ringmini{display:flex;align-items:center;gap:10px}
+.ringmini svg{width:52px;height:52px}
+.ringmini b{font-family:Fraunces,serif;font-size:19px}
+.checklist{list-style:none;margin-top:8px}
+.checklist li{display:flex;gap:11px;align-items:flex-start;padding:10px 2px;border-bottom:1px dashed var(--line);cursor:pointer;font-size:14.5px}
+.checklist li:last-child{border-bottom:0}
+.checklist .box{flex:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--bronze);margin-top:1px;display:grid;place-items:center;color:#fff;background:#fff}
+.checklist .box svg{width:14px;height:14px;opacity:0}
+.checklist li.done .box{background:var(--green);border-color:var(--green)}
+.checklist li.done .box svg{opacity:1}
+.checklist li.done span{color:var(--muted);text-decoration:line-through}
+.checklist li .why{display:block;font-size:12.5px;color:var(--muted)}
+/* ---------- day plan ---------- */
+.plandays{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.planday{padding:18px}
+.planday .dayno{font-family:Fraunces,serif;font-size:15px;font-weight:800;color:var(--terra)}
+.planday h3{font-size:18px;margin:2px 0 8px}
+.planday ul{list-style:none}
+.planday li{font-size:14px;padding:7px 0 7px 22px;position:relative;border-bottom:1px dashed var(--line)}
+.planday li:last-child{border-bottom:0}
+.planday li::before{content:"";position:absolute;left:2px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--bronze)}
+/* ---------- guides ---------- */
+.guides{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.guide{padding:18px 20px}
+.guide summary{cursor:pointer;font-family:Fraunces,serif;font-size:18px;font-weight:800;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.guide summary::-webkit-details-marker{display:none}
+.guide summary .chev{transition:transform .2s;color:var(--bronze)}

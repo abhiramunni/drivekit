@@ -435,3 +435,56 @@ footer p{font-size:13px;color:var(--muted);max-width:560px}
       <div class="checkhead">
         <h3>Packed?</h3>
         <div class="ringmini">
+
+          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="21" fill="none" stroke="#efe6d2" stroke-width="6"/><circle id="packArc" cx="26" cy="26" r="21" fill="none" stroke="#b7791f" stroke-width="6" stroke-linecap="round" stroke-dasharray="131.9" stroke-dashoffset="92.3" transform="rotate(-90 26 26)"/></svg>
+          <b id="packCount">3 of 10</b>
+        </div>
+      </div>
+      <p class="small muted">Ooty in December is cold in the morning — pack the jacket even if noon is warm.</p>
+      <ul class="checklist" id="packList"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="plan">
+  <span class="eyebrow">Day by day</span>
+  <h2 id="planTitle">Three days in Ooty.</h2>
+  <p class="sub" id="planSub">A slow plan on purpose — the drive up is the first day's adventure, not a race to the hotel.</p>
+  <div class="plandays" id="planDays"></div>
+</section>
+
+<section class="wrap sec" id="guides">
+  <span class="eyebrow">Know this</span>
+  <h2>Driving the ghats, in plain words.</h2>
+  <p class="sub">Six short guides. Read the ghat one before you leave — it is the one that matters most on this route.</p>
+  <div class="guides" id="guidesList"></div>
+</section>
+
+<section class="wrap">
+  <div class="band">
+    <img src="drivekit-flatlay.webp" alt="Road trip essentials laid out: map, sunglasses, water bottle, snacks, keys and a phone" loading="lazy">
+    <div class="copy">
+      <span class="eyebrow" style="color:var(--gold)">The night-before rule</span>
+      <h2>Pack the car the night before. Leave at 6 AM, not 9.</h2>
+      <p>Every hour you leave late is an hour of ghat traffic and heat you did not need. Fuel up the evening before — the first 40 km out of town has the cheapest pumps.</p>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <div>
+      <p><b style="color:var(--ink)">DriveKit</b> — a road-trip planner that lives on your device. Trips, ticks and spends are saved in this browser only. Distances, fuel prices and tolls are November 2026 estimates — check the pump price and the FASTag balance before you leave.</p>
+      <p style="margin-top:8px">Made for South India roads. Ooty route via Thamarassery, Kalpetta, Sultan Bathery and Gudalur.</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn small" type="button" id="copySummary">Copy trip summary</button>
+      <button class="btn small ghost" type="button" id="removeSamples">Remove samples</button>
+      <button class="btn small ghost" type="button" id="eraseAll">Erase everything</button>
+    </div>
+  </div>
+</footer>
+
+<div id="coach" role="dialog" aria-label="Quick tour">
+  <div id="coachCard">
+    <span class="eyebrow" id="coachStep">Step 1 of 3</span>
+    <h3 id="coachTitle">Pick a trip.</h3>

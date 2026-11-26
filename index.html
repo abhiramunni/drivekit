@@ -342,3 +342,53 @@ footer p{font-size:13px;color:var(--muted);max-width:560px}
   <p class="sub">Change the mileage or the fuel price and every number on this page updates — the trip card, the budget, and the per-person split. Prices are November 2026 Karnataka petrol, editable.</p>
   <div class="calc">
     <div class="card panel">
+
+      <div class="field">
+        <label>Your car's mileage <output id="mileageOut">12 km/l</output></label>
+        <input type="range" id="calcMileage" min="8" max="22" step="0.5" value="12" aria-label="Mileage in kilometres per litre">
+      </div>
+      <div class="field">
+        <label>Fuel price <output id="priceOut">₹113.79 / litre</output></label>
+        <input type="range" id="calcPrice" min="90" max="130" step="0.01" value="113.79" aria-label="Fuel price per litre">
+      </div>
+      <div class="field">
+        <label>Fuel type</label>
+        <div class="seg" id="fuelSeg">
+          <button type="button" data-fuel="petrol" class="on">Petrol</button>
+          <button type="button" data-fuel="diesel">Diesel</button>
+          <button type="button" data-fuel="cng">CNG</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Tolls, one way (₹)</label>
+        <input type="number" id="calcTolls" min="0" value="0" aria-label="Tolls one way in rupees">
+      </div>
+      <div class="field">
+        <label>People splitting the cost <output id="peopleOut">4 people</output></label>
+        <input type="range" id="calcPeople" min="1" max="7" step="1" value="4" aria-label="Number of people splitting costs">
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Trip length</label>
+        <div class="seg" id="tripSeg">
+          <button type="button" data-trip="one" >One way</button>
+          <button type="button" data-trip="round" class="on">Round trip</button>
+        </div>
+      </div>
+    </div>
+    <div class="card panel receipt" id="receipt" aria-live="polite">
+      <div class="row"><span>Distance</span><b id="outKm">190 km one way · 380 km return</b></div>
+      <div class="row"><span>Fuel needed</span><b id="outLitres">31.7 litres</b></div>
+      <div class="row"><span>Fuel cost</span><b id="outFuel">₹3,603</b></div>
+      <div class="row"><span>Tolls</span><b id="outTolls">₹0</b></div>
+      <div class="row"><span>Stay · <span id="outStayLbl">2 nights × ₹1,800</span></span><b id="outStay">₹3,600</b></div>
+      <div class="row"><span>Food · <span id="outFoodLbl">3 days × ₹600</span></span><b id="outFood">₹1,800</b></div>
+      <div class="row total"><span>All-in total</span><b id="outTotal">₹9,003</b></div>
+      <div class="row pp"><span>Each person pays</span><b id="outPerPerson">₹2,251</b></div>
+      <p class="small muted" style="margin-top:12px">Fuel, tolls and food are estimates from today's prices. Stay is the budget you set for this trip — change it in the trip card. This is planning maths, not a booking.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="budget">
+  <span class="eyebrow">Trip budget</span>
+  <h2>Planned vs spent, at a glance.</h2>

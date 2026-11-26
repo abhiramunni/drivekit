@@ -392,3 +392,46 @@ footer p{font-size:13px;color:var(--muted);max-width:560px}
 <section class="wrap sec" id="budget">
   <span class="eyebrow">Trip budget</span>
   <h2>Planned vs spent, at a glance.</h2>
+
+  <p class="sub">The plan is the all-in total above. Log what you actually spend as you go — the ring shows how much of the plan is used up.</p>
+  <div class="budget">
+    <div class="card ringwrap">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#efe6d2" stroke-width="12"/>
+        <circle id="budgetArc" cx="60" cy="60" r="52" fill="none" stroke="#b7791f" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="290" transform="rotate(-90 60 60)"/>
+      </svg>
+      <div class="pct" id="budgetPct">11%</div>
+      <p class="small muted">of the plan spent<br><b id="budgetSpent" style="color:var(--ink)">₹1,000</b> of <b id="budgetPlan" style="color:var(--ink)">₹9,003</b></p>
+    </div>
+    <div class="card panel">
+      <div class="brows" id="budgetRows"></div>
+      <form class="spendform" id="spendForm">
+        <select id="spendCat" aria-label="Spend category"><option>Fuel</option><option>Tolls</option><option>Stay</option><option>Food</option><option>Fun</option></select>
+        <input type="text" id="spendLabel" placeholder="What was it? e.g. Tank full at Kalpetta" aria-label="Spend description" required>
+        <input type="number" id="spendAmt" placeholder="₹ amount" min="1" aria-label="Amount in rupees" required>
+        <button class="btn small terra" type="submit">Log spend</button>
+      </form>
+      <div id="spendList" style="margin-top:10px"></div>
+    </div>
+  </div>
+</section>
+<section class="wrap sec" id="checks">
+  <span class="eyebrow">Before you leave</span>
+  <h2>Car checks &amp; packing, done the night before.</h2>
+  <p class="sub">Twelve car checks and ten things to pack. Tap to tick — everything saves on this device, so the list is still ticked when you open it at 5 AM.</p>
+  <div class="split2">
+    <div class="card checkcard">
+      <div class="checkhead">
+        <h3>Car ready?</h3>
+        <div class="ringmini">
+          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="21" fill="none" stroke="#efe6d2" stroke-width="6"/><circle id="checkArc" cx="26" cy="26" r="21" fill="none" stroke="#4a7a3f" stroke-width="6" stroke-linecap="round" stroke-dasharray="131.9" stroke-dashoffset="88" transform="rotate(-90 26 26)"/></svg>
+          <b id="checkCount">4 of 12</b>
+        </div>
+      </div>
+      <p class="small muted">If any check fails, fix it before the ghats — not on them.</p>
+      <ul class="checklist" id="checkList"></ul>
+    </div>
+    <div class="card checkcard">
+      <div class="checkhead">
+        <h3>Packed?</h3>
+        <div class="ringmini">

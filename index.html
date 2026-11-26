@@ -607,7 +607,7 @@ try{state=Object.assign(defaultState(),JSON.parse(localStorage.getItem(KEY)||'{}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
 const $=s=>document.querySelector(s);
 const $$=s=>Array.prototype.slice.call(document.querySelectorAll(s));
-function esc(s){return String(s).replace(/[&<>"/]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function safeScroll(el){try{if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
 function activeTrip(){return TRIPS.find(t=>t.id===state.activeTrip)||TRIPS[0];}
